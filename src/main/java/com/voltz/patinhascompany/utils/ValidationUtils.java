@@ -9,13 +9,21 @@ public class ValidationUtils {
 
     // Método para validar e-mail
     public static boolean isValidEmail(String email) {
-        return Pattern.compile(EMAIL_REGEX).matcher(email).matches();
+        return email != null && Pattern.compile(EMAIL_REGEX).matcher(email).matches();
     }
 
     // Método para validar senha
     public static boolean isValidPassword(String password) {
-        return Pattern.compile(PASSWORD_REGEX).matcher(password).matches();
+        return password != null && Pattern.compile(PASSWORD_REGEX).matcher(password).matches();
     }
 
-    // Outros métodos de validação podem ser adicionados aqui
+    // Método para validar se uma string não está vazia ou nula
+    public static boolean isNotEmpty(String str) {
+        return str != null && !str.trim().isEmpty();
+    }
+
+    // Método para validar se um valor numérico é positivo
+    public static boolean isPositive(double value) {
+        return value > 0;
+    }
 }

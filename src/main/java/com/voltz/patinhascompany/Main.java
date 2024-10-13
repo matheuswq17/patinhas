@@ -1,7 +1,7 @@
-package main.java.com.voltz.patinhascompany;
+package com.voltz.patinhascompany;
 
-import main.java.com.voltz.patinhascompany.factory.ConnectionFactory;
-import main.java.com.voltz.patinhascompany.models.*;
+import com.voltz.patinhascompany.factory.ConnectionFactory;
+import com.voltz.patinhascompany.models.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -34,7 +34,7 @@ public class Main {
         Carteira carteira = usuario.getCarteira();
         Investimento investimento = new Investimento(2, bitcoin, carteira, conta, usuario);  // Investir em 2 Bitcoins
         investimento.realizarInvestimento();
-        System.out.println("Investimento realizado em " + investimento.getCriptoAtivo().getNome() + " com montante: " + investimento.getMontante());
+        System.out.println("Investimento realizado em " + investimento.getCriptoAtivo().getNome() + " com valor: " + investimento.getValor());
 
         // Notificar o usuário
         Notificacao notificacao = new Notificacao("Seu investimento em Bitcoin foi realizado com sucesso!", usuario);
@@ -44,10 +44,10 @@ public class Main {
         double totalInvestido = carteira.calcularValorTotalInvestido();
         System.out.println("Valor total investido na carteira de " + usuario.getNome() + ": " + totalInvestido);
 
-        try{
+        try {
             Connection conexao = ConnectionFactory.getConnection();
             System.out.println("Conexão realizada");
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
     }

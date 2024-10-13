@@ -1,6 +1,7 @@
 package com.voltz.patinhascompany.dao;
 
 import com.voltz.patinhascompany.models.CriptoAtivo;
+import com.voltz.patinhascompany.models.Empresa;
 import com.voltz.patinhascompany.factory.ConnectionFactory;
 
 import java.sql.Connection;
@@ -13,10 +14,13 @@ import java.util.List;
 public class CriptoAtivoDao {
 
     public void inserir(CriptoAtivo criptoAtivo) {
-        String sql = "INSERT INTO cripto_ativo (nome) VALUES (?)";
+        String sql = "INSERT INTO cripto_ativo (nome, codigo, preco, empresa_id) VALUES (?, ?, ?, ?)";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, criptoAtivo.getNome());
+            stmt.setString(2, criptoAtivo.getCodigo());
+            stmt.setDouble(3, criptoAtivo.getPreco());
+            stmt.setInt(4, criptoAtivo.getEmpresa().getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -33,6 +37,9 @@ public class CriptoAtivoDao {
                 CriptoAtivo criptoAtivo = new CriptoAtivo();
                 criptoAtivo.setId(rs.getInt("id"));
                 criptoAtivo.setNome(rs.getString("nome"));
+                criptoAtivo.setCodigo(rs.getString("codigo"));
+                criptoAtivo.setPreco(rs.getDouble("preco"));
+                // Aqui você precisará obter a empresa associada
                 criptoAtivos.add(criptoAtivo);
             }
         } catch (SQLException e) {
@@ -42,11 +49,13 @@ public class CriptoAtivoDao {
     }
 
     public void atualizar(CriptoAtivo criptoAtivo) {
-        String sql = "UPDATE cripto_ativo SET nome = ? WHERE id = ?";
+        String sql = "UPDATE cripto_ativo SET nome = ?, codigo = ?, preco = ? WHERE id = ?";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, criptoAtivo.getNome());
-            stmt.setInt(2, criptoAtivo.getId());
+            stmt.setString(2, criptoAtivo.getCodigo());
+            stmt.setDouble(3, criptoAtivo.getPreco());
+            stmt.setInt(4, criptoAtivo.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

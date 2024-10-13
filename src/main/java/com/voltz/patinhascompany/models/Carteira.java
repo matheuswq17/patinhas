@@ -5,50 +5,41 @@ import java.util.List;
 
 public class Carteira {
     private int id;
-    private Usuario usuario;
-    private int quantidade;
-    private List<Investimento> investimentos;
+    private String nome;
+    private List<Investimento> investimentos = new ArrayList<>();
 
-    public Carteira(Usuario usuario, int quantidade) {
-        this.usuario = usuario;
-        this.investimentos = new ArrayList<>();
-        this.quantidade = quantidade;
+    // Construtores, getters e setters
+    public Carteira() {}
+
+    public Carteira(int id, String nome) {
+        this.id = id;
+        this.nome = nome;
     }
 
-    // Getters e Setters
-    public Usuario getUsuario() {
-        return usuario;
+    public int getId() {
+        return id;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public List<Investimento> getInvestimentos() {
-        return investimentos;
+    public String getNome() {
+        return nome;
     }
 
-    // Métodos de Negócio
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public void adicionarInvestimento(Investimento investimento) {
         this.investimentos.add(investimento);
-    }
-
-    public void removerInvestimento(Investimento investimento) {
-        this.investimentos.remove(investimento);
-    }
-
-    public int getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
     }
 
     public double calcularValorTotalInvestido() {
         double total = 0.0;
         for (Investimento investimento : investimentos) {
-            total += investimento.getMontante();
+            total += investimento.getValor();
         }
         return total;
     }

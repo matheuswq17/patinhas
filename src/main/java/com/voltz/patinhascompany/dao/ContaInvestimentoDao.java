@@ -13,10 +13,13 @@ import java.util.List;
 public class ContaInvestimentoDao {
 
     public void inserir(ContaInvestimento contaInvestimento) {
-        String sql = "INSERT INTO conta_investimento (nome) VALUES (?)";
+        String sql = "INSERT INTO conta_investimento (numero_conta, tipo_moeda, usuario_id, saldo) VALUES (?, ?, ?, ?)";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, contaInvestimento.getNome());
+            stmt.setString(1, contaInvestimento.getNumeroConta());
+            stmt.setString(2, contaInvestimento.getTipoMoeda());
+            stmt.setInt(3, contaInvestimento.getUsuario().getId());
+            stmt.setDouble(4, contaInvestimento.getSaldo());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -32,7 +35,10 @@ public class ContaInvestimentoDao {
             while (rs.next()) {
                 ContaInvestimento conta = new ContaInvestimento();
                 conta.setId(rs.getInt("id"));
-                conta.setNome(rs.getString("nome"));
+                conta.setNumeroConta(rs.getString("numero_conta"));
+                conta.setTipoMoeda(rs.getString("tipo_moeda"));
+                conta.setSaldo(rs.getDouble("saldo"));
+                // Aqui você precisará obter o usuário associado
                 contas.add(conta);
             }
         } catch (SQLException e) {
@@ -42,11 +48,13 @@ public class ContaInvestimentoDao {
     }
 
     public void atualizar(ContaInvestimento contaInvestimento) {
-        String sql = "UPDATE conta_investimento SET nome = ? WHERE id = ?";
+        String sql = "UPDATE conta_investimento SET numero_conta = ?, tipo_moeda = ?, saldo = ? WHERE id = ?";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, contaInvestimento.getNome());
-            stmt.setInt(2, contaInvestimento.getId());
+            stmt.setString(1, contaInvestimento.getNumeroConta());
+            stmt.setString(2, contaInvestimento.getTipoMoeda());
+            stmt.setDouble(3, contaInvestimento.getSaldo());
+            stmt.setInt(4, contaInvestimento.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

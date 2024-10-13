@@ -3,18 +3,31 @@ package com.voltz.patinhascompany.models;
 public class CriptoAtivo {
     private int id;
     private String nome;
-    private String codigo;  // Ex: "BTC", "ETH"
-    private double precoAtual;
+    private String codigo;
+    private double preco;
     private Empresa empresa;
 
-    public CriptoAtivo(String nome, String codigo, double precoAtual, Empresa empresa) {
+    // Construtor vazio
+    public CriptoAtivo() {
+    }
+
+    // Construtor completo
+    public CriptoAtivo(String nome, String codigo, double preco, Empresa empresa) {
         this.nome = nome;
         this.codigo = codigo;
-        this.precoAtual = precoAtual;
+        this.preco = preco;
         this.empresa = empresa;
     }
 
     // Getters e Setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -31,12 +44,12 @@ public class CriptoAtivo {
         this.codigo = codigo;
     }
 
-    public double getPrecoAtual() {
-        return precoAtual;
+    public double getPreco() {
+        return preco;
     }
 
-    public void setPrecoAtual(double precoAtual) {
-        this.precoAtual = precoAtual;
+    public void setPreco(double preco) {
+        this.preco = preco;
     }
 
     public Empresa getEmpresa() {
@@ -45,10 +58,5 @@ public class CriptoAtivo {
 
     public void setEmpresa(Empresa empresa) {
         this.empresa = empresa;
-    }
-
-    // Método de Negócio
-    public void atualizarPreco(double novoPreco) {
-        this.precoAtual = novoPreco;
     }
 }

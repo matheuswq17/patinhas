@@ -1,27 +1,35 @@
 package com.voltz.patinhascompany.models;
 
-import java.util.Date;
-
 public class Transacao {
     private int id;
-    private String tipo; // "compra" ou "venda"
-    private double montante;
-    private Date data;
+    private String tipo;
+    private double valor;
     private ContaInvestimento origem;
     private ContaInvestimento destino;
+    private CriptoAtivo criptoAtivo;
 
-    private CriptoAtivo criptoativo;
+    // Construtor vazio
+    public Transacao() {
+    }
 
-    public Transacao(String tipo, double montante, ContaInvestimento origem, ContaInvestimento destino, CriptoAtivo criptoativo) {
+    // Construtor completo
+    public Transacao(String tipo, double valor, ContaInvestimento origem, ContaInvestimento destino, CriptoAtivo criptoAtivo) {
         this.tipo = tipo;
-        this.montante = montante;
+        this.valor = valor;
         this.origem = origem;
         this.destino = destino;
-        this.data = new Date();
-        this.criptoativo = criptoativo;
+        this.criptoAtivo = criptoAtivo;
     }
 
     // Getters e Setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getTipo() {
         return tipo;
     }
@@ -30,16 +38,12 @@ public class Transacao {
         this.tipo = tipo;
     }
 
-    public double getMontante() {
-        return montante;
+    public double getValor() {
+        return valor;
     }
 
-    public void setMontante(double montante) {
-        this.montante = montante;
-    }
-
-    public Date getData() {
-        return data;
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 
     public ContaInvestimento getOrigem() {
@@ -58,25 +62,23 @@ public class Transacao {
         this.destino = destino;
     }
 
-    public CriptoAtivo getCriptoativo() {
-        return criptoativo;
+    public CriptoAtivo getCriptoAtivo() {
+        return criptoAtivo;
     }
 
-    public void setCriptoativo(CriptoAtivo criptoativo) {
-        this.criptoativo = criptoativo;
+    public void setCriptoAtivo(CriptoAtivo criptoAtivo) {
+        this.criptoAtivo = criptoAtivo;
     }
 
-    // Método de Negócio
     public boolean executarTransacao() {
-        if (tipo.equalsIgnoreCase("compra")) {
-            origem.retirarSaldo(montante);
-            destino.adicionarSaldo(montante);
+        if (origem != null && valor <= origem.getSaldo()) {
+            origem.adicionarSaldo(-valor);
+            destino.adicionarSaldo(valor);
+            System.out.println("Transação de " + tipo + " executada com sucesso!");
             return true;
-        } else if (tipo.equalsIgnoreCase("venda")) {
-            destino.retirarSaldo(montante);
-            origem.adicionarSaldo(montante);
-            return true;
+        } else {
+            System.out.println("Falha na transação: saldo insuficiente.");
+            return false;
         }
-        return false;
     }
 }

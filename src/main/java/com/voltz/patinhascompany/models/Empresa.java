@@ -8,12 +8,26 @@ public class Empresa {
     private String nome;
     private List<CriptoAtivo> criptoativos;
 
+    // Construtor vazio
+    public Empresa() {
+        this.criptoativos = new ArrayList<>();
+    }
+
+    // Construtor completo
     public Empresa(String nome) {
         this.nome = nome;
         this.criptoativos = new ArrayList<>();
     }
 
     // Getters e Setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -22,12 +36,10 @@ public class Empresa {
         this.nome = nome;
     }
 
-
     public List<CriptoAtivo> getCriptoativos() {
         return criptoativos;
     }
 
-    // Método de Negócio
     public void adicionarCriptoAtivo(CriptoAtivo criptoativo) {
         this.criptoativos.add(criptoativo);
     }

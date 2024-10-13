@@ -1,7 +1,4 @@
 package com.voltz.patinhascompany.models;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class Usuario {
     private int id;
@@ -9,17 +6,29 @@ public class Usuario {
     private String email;
     private String senha;
     private Carteira carteira;
-    private List<Notificacao> notificacoes;
 
+    // Construtor vazio
+    public Usuario() {
+        this.carteira = new Carteira();
+    }
+
+    // Construtor completo
     public Usuario(String nome, String email, String senha) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
-        this.carteira = new Carteira(this, 0); // Cada usuário tem sua carteira
-        this.notificacoes = new ArrayList<>();
+        this.carteira = new Carteira();
     }
 
     // Getters e Setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -48,16 +57,7 @@ public class Usuario {
         return carteira;
     }
 
-    public List<Notificacao> getNotificacoes() {
-        return notificacoes;
-    }
-
-    // Outros métodos
-    public boolean autenticar(String email, String senha) {
-        return this.email.equals(email) && this.senha.equals(senha);
-    }
-
-    public void receberNotificacao(Notificacao notificacao) {
-        this.notificacoes.add(notificacao);
+    public void setCarteira(Carteira carteira) {
+        this.carteira = carteira;
     }
 }

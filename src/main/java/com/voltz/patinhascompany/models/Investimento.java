@@ -1,41 +1,48 @@
 package com.voltz.patinhascompany.models;
 
-import java.util.Date;
-
 public class Investimento {
     private int id;
-    private Date data;
-    private double montante;
+    private String nome;
+    private double valor;
     private CriptoAtivo criptoAtivo;
     private Carteira carteira;
-
     private ContaInvestimento contaInvestimento;
     private Usuario usuario;
 
-    public Investimento(double montante, CriptoAtivo criptoAtivo, Carteira carteira, ContaInvestimento contaInvestimento, Usuario usuario) {
-        this.data = new Date();  // Define a data atual como padrão
-        this.montante = montante;
+    // Construtores, getters e setters
+    public Investimento() {}
+
+    public Investimento(double valor, CriptoAtivo criptoAtivo, Carteira carteira, ContaInvestimento contaInvestimento, Usuario usuario) {
+        this.valor = valor;
         this.criptoAtivo = criptoAtivo;
         this.carteira = carteira;
         this.contaInvestimento = contaInvestimento;
         this.usuario = usuario;
+        this.nome = criptoAtivo.getNome();
     }
 
-    // Getters e Setters
-    public Date getData() {
-        return data;
+    public int getId() {
+        return id;
     }
 
-    public void setData(Date data) {
-        this.data = data;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public double getMontante() {
-        return montante;
+    public String getNome() {
+        return nome;
     }
 
-    public void setMontante(double montante) {
-        this.montante = montante;
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 
     public CriptoAtivo getCriptoAtivo() {
@@ -54,9 +61,24 @@ public class Investimento {
         this.carteira = carteira;
     }
 
-    // Método de Negócio
+    public ContaInvestimento getContaInvestimento() {
+        return contaInvestimento;
+    }
+
+    public void setContaInvestimento(ContaInvestimento contaInvestimento) {
+        this.contaInvestimento = contaInvestimento;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     public void realizarInvestimento() {
         carteira.adicionarInvestimento(this);
-        System.out.println("Investimento realizado em " + criptoAtivo.getNome() + " no valor de " + montante);
+        contaInvestimento.adicionarSaldo(-valor);
     }
 }
