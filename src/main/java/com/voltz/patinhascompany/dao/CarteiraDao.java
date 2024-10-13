@@ -1,6 +1,3 @@
-// Arquivo: CarteiraDao.java
-// Localização: src/main/java/com/voltz/patinhascompany/dao
-
 package com.voltz.patinhascompany.dao;
 
 import com.voltz.patinhascompany.models.Carteira;

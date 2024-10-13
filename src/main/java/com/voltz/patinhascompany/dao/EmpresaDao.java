@@ -1,5 +1,3 @@
-// Arquivo: EmpresaDao.java
-// Localização: src/main/java/com/voltz/patinhascompany/dao
 
 package com.voltz.patinhascompany.dao;
 
