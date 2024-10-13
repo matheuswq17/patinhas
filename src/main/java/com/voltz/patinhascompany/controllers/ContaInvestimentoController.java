@@ -1,9 +1,8 @@
 package com.voltz.patinhascompany.controllers;
 
-import com.voltz.patinhascompany.services.UsuarioService;
-import com.voltz.patinhascompany.models.Usuario;
+import com.voltz.patinhascompany.services.ContaInvestimentoService;
+import com.voltz.patinhascompany.models.ContaInvestimento;
 
-// Outras dependências necessárias para controlar a lógica de negócios
 import java.util.List;
 import java.util.Scanner; // Caso use entradas de usuário
 

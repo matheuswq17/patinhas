@@ -1,6 +1,9 @@
+// Arquivo: NotificacaoDao.java
+// Localização: src/main/java/com/voltz/patinhascompany/dao
+
 package com.voltz.patinhascompany.dao;
 
-import com.voltz.patinhascompany.models.Usuario;
+import com.voltz.patinhascompany.models.Notificacao;
 import com.voltz.patinhascompany.factory.ConnectionFactory;
 
 import java.sql.Connection;
@@ -10,25 +13,57 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-
 public class NotificacaoDao {
-    private Connection conexao;
 
-    public NotificacaoDao() throws SQLException {
-        conexao = ConnectionFactory.getConnection();
+    public void inserir(Notificacao notificacao) {
+        String sql = "INSERT INTO notificacao (mensagem) VALUES (?)";
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, notificacao.getMensagem());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void fecharConexao() throws SQLException{
-        conexao.close();
+    public List<Notificacao> listarTodos() {
+        List<Notificacao> notificacoes = new ArrayList<>();
+        String sql = "SELECT * FROM notificacao";
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Notificacao notificacao = new Notificacao();
+                notificacao.setId(rs.getInt("id"));
+                notificacao.setMensagem(rs.getString("mensagem"));
+                notificacoes.add(notificacao);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return notificacoes;
     }
 
-    public void cadastrar(){}
-    public List<Notificacao>listar(){return null;}
-    public void atualizar(){}
-    public void remover(){}
+    public void atualizar(Notificacao notificacao) {
+        String sql = "UPDATE notificacao SET mensagem = ? WHERE id = ?";
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, notificacao.getMensagem());
+            stmt.setInt(2, notificacao.getId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void remover(int id) {
+        String sql = "DELETE FROM notificacao WHERE id = ?";
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
