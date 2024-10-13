@@ -1,4 +1,4 @@
-package main.java.com.voltz.patinhascompany.dao;
+package com.voltz.patinhascompany.dao;
 
 import main.java.com.voltz.patinhascompany.factory.ConnectionFactory;
 import main.java.com.voltz.patinhascompany.models.Empresa;

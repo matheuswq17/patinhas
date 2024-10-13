@@ -1,5 +1,4 @@
-package main.java.com.voltz.patinhascompany.models;
-
+package com.voltz.patinhascompany.models;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

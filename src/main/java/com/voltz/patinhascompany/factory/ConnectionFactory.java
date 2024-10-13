@@ -1,5 +1,4 @@
-package main.java.com.voltz.patinhascompany.factory;
-
+package com.voltz.patinhascompany.factory;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

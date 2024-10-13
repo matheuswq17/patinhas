@@ -1,4 +1,4 @@
-package main.java.com.voltz.patinhascompany.models;
+package com.voltz.patinhascompany.models;
 
 public class ContaInvestimento {
     private int id;

@@ -1,4 +1,4 @@
-package main.java.com.voltz.patinhascompany.services;
+package com.voltz.patinhascompany.services;
 
 import main.java.com.voltz.patinhascompany.models.CriptoAtivo;
 import main.java.com.voltz.patinhascompany.models.Transacao;

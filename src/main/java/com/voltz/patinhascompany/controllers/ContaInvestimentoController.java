@@ -1,4 +1,4 @@
-package main.java.com.voltz.patinhascompany.controllers;
+package com.voltz.patinhascompany.controllers;
 
 import main.java.com.voltz.patinhascompany.models.ContaInvestimento;
 import main.java.com.voltz.patinhascompany.models.Usuario;
