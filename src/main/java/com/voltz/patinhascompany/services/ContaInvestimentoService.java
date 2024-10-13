@@ -1,7 +1,12 @@
 package com.voltz.patinhascompany.services;
 
-import main.java.com.voltz.patinhascompany.models.ContaInvestimento;
-import main.java.com.voltz.patinhascompany.models.Usuario;
+import com.voltz.patinhascompany.dao.UsuarioDao;
+import com.voltz.patinhascompany.models.Usuario;
+
+// Outras bibliotecas Java necessárias, como listas ou exceções
+import java.util.List;
+import java.util.Optional;
+;
 
 public class ContaInvestimentoService {
 
