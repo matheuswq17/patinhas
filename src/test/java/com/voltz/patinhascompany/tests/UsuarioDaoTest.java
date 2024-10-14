@@ -2,7 +2,6 @@ package com.voltz.patinhascompany.tests;
 
 import com.voltz.patinhascompany.dao.UsuarioDao;
 import com.voltz.patinhascompany.models.Usuario;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,62 +17,44 @@ public class UsuarioDaoTest {
     @BeforeEach
     public void setUp() {
         usuarioDao = new UsuarioDao();
-        usuarioTeste = new Usuario();
-        usuarioTeste.setNome("Teste Nome");
-        usuarioTeste.setEmail("teste@email.com");
-        usuarioTeste.setSenha("123456");
+        usuarioTeste = new Usuario("Teste Nome", "teste@email.com", "senha123");
+    }
+
+    @Test
+    public void testInserir() {
         usuarioDao.inserir(usuarioTeste);
+        assertTrue(usuarioTeste.getId() > 0, "O ID do usuário deve ser maior que zero após a inserção");
     }
 
-    @AfterEach
-    public void tearDown() {
+    @Test
+    public void testBuscarPorId() {
+        usuarioDao.inserir(usuarioTeste);
+        Usuario usuarioBuscado = usuarioDao.buscarPorId(usuarioTeste.getId());
+        assertNotNull(usuarioBuscado, "O usuário buscado não deve ser nulo");
+        assertEquals(usuarioTeste.getNome(), usuarioBuscado.getNome(), "O nome do usuário buscado deve ser igual ao inserido");
+    }
+
+    @Test
+    public void testListarTodos() {
+        usuarioDao.inserir(usuarioTeste);
         List<Usuario> usuarios = usuarioDao.listarTodos();
-        for (Usuario usuario : usuarios) {
-            usuarioDao.remover(usuario.getId());
-        }
+        assertFalse(usuarios.isEmpty(), "A lista de usuários não deve estar vazia");
     }
 
     @Test
-    public void testInserirUsuario() {
-        Usuario usuario = new Usuario();
-        usuario.setNome("Novo Usuario");
-        usuario.setEmail("novo@teste.com");
-        usuario.setSenha("senha123");
-
-        usuarioDao.inserir(usuario);
-        Usuario usuarioInserido = usuarioDao.buscarPorId(usuario.getId());
-
-        assertNotNull(usuarioInserido);
-        assertEquals("Novo Usuario", usuarioInserido.getNome());
-        assertEquals("novo@teste.com", usuarioInserido.getEmail());
-    }
-
-    @Test
-    public void testAtualizarUsuario() {
+    public void testAtualizar() {
+        usuarioDao.inserir(usuarioTeste);
         usuarioTeste.setNome("Nome Atualizado");
         usuarioDao.atualizar(usuarioTeste);
-
         Usuario usuarioAtualizado = usuarioDao.buscarPorId(usuarioTeste.getId());
-        assertEquals("Nome Atualizado", usuarioAtualizado.getNome());
+        assertEquals("Nome Atualizado", usuarioAtualizado.getNome(), "O nome do usuário deve ser atualizado");
     }
 
     @Test
-    public void testRemoverUsuario() {
+    public void testRemover() {
+        usuarioDao.inserir(usuarioTeste);
         usuarioDao.remover(usuarioTeste.getId());
         Usuario usuarioRemovido = usuarioDao.buscarPorId(usuarioTeste.getId());
-        assertNull(usuarioRemovido);
-    }
-
-    @Test
-    public void testListarTodosUsuarios() {
-        List<Usuario> usuarios = usuarioDao.listarTodos();
-        assertFalse(usuarios.isEmpty());
-    }
-
-    @Test
-    public void testBuscarUsuarioPorId() {
-        Usuario usuarioEncontrado = usuarioDao.buscarPorId(usuarioTeste.getId());
-        assertNotNull(usuarioEncontrado);
-        assertEquals(usuarioTeste.getNome(), usuarioEncontrado.getNome());
+        assertNull(usuarioRemovido, "O usuário deve ser nulo após a remoção");
     }
 }
