@@ -23,13 +23,13 @@ public class UsuarioDaoTest {
     @Test
     public void testInserir() {
         usuarioDao.inserir(usuarioTeste);
-        assertTrue(usuarioTeste.getId() > 0, "O ID do usuário deve ser maior que zero após a inserção");
+        assertNotNull(usuarioTeste.getId(), "O ID do usuário não deve ser nulo após a inserção");
     }
 
     @Test
     public void testBuscarPorId() {
         usuarioDao.inserir(usuarioTeste);
-        Usuario usuarioBuscado = usuarioDao.buscarPorId(usuarioTeste.getId());
+        Usuario usuarioBuscado = usuarioDao.buscarPorId(Integer.parseInt(usuarioTeste.getId()));
         assertNotNull(usuarioBuscado, "O usuário buscado não deve ser nulo");
         assertEquals(usuarioTeste.getNome(), usuarioBuscado.getNome(), "O nome do usuário buscado deve ser igual ao inserido");
     }
@@ -46,15 +46,15 @@ public class UsuarioDaoTest {
         usuarioDao.inserir(usuarioTeste);
         usuarioTeste.setNome("Nome Atualizado");
         usuarioDao.atualizar(usuarioTeste);
-        Usuario usuarioAtualizado = usuarioDao.buscarPorId(usuarioTeste.getId());
+        Usuario usuarioAtualizado = usuarioDao.buscarPorId(Integer.parseInt(usuarioTeste.getId()));
         assertEquals("Nome Atualizado", usuarioAtualizado.getNome(), "O nome do usuário deve ser atualizado");
     }
 
     @Test
     public void testRemover() {
         usuarioDao.inserir(usuarioTeste);
-        usuarioDao.remover(usuarioTeste.getId());
-        Usuario usuarioRemovido = usuarioDao.buscarPorId(usuarioTeste.getId());
+        usuarioDao.remover(Integer.parseInt(usuarioTeste.getId()));
+        Usuario usuarioRemovido = usuarioDao.buscarPorId(Integer.parseInt(usuarioTeste.getId()));
         assertNull(usuarioRemovido, "O usuário deve ser nulo após a remoção");
     }
 }

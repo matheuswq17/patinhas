@@ -23,7 +23,7 @@ public class UsuarioDao {
 
             try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    usuario.setId(generatedKeys.getInt(1)); // Definindo o ID gerado
+                    usuario.setId(String.valueOf(generatedKeys.getInt(1)));
                 }
             }
         } catch (SQLException e) {
@@ -39,7 +39,7 @@ public class UsuarioDao {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     Usuario usuario = new Usuario();
-                    usuario.setId(rs.getInt("idusuario"));
+                    usuario.setId(String.valueOf(rs.getInt("idusuario")));
                     usuario.setNome(rs.getString("nome"));
                     usuario.setEmail(rs.getString("email"));
                     usuario.setSenha(rs.getString("senha"));
@@ -60,7 +60,7 @@ public class UsuarioDao {
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Usuario usuario = new Usuario();
-                usuario.setId(rs.getInt("idusuario"));
+                usuario.setId(String.valueOf(rs.getInt("idusuario")));
                 usuario.setNome(rs.getString("nome"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setSenha(rs.getString("senha"));
@@ -79,7 +79,7 @@ public class UsuarioDao {
             stmt.setString(1, usuario.getNome());
             stmt.setString(2, usuario.getEmail());
             stmt.setString(3, usuario.getSenha());
-            stmt.setInt(4, usuario.getId());
+            stmt.setInt(4, Integer.parseInt(usuario.getId()));
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
