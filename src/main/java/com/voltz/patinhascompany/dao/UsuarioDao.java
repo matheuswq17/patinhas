@@ -14,7 +14,7 @@ import java.util.UUID;
 public class UsuarioDao {
 
     public void inserir(Usuario usuario) {
-        String sql = "INSERT INTO usuario (idusuario, nome, email, senha) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO usuario (nome, email, senha) VALUES (?, ?, ?)";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             String generatedId = UUID.randomUUID().toString(); // Gerando um ID único usando UUID
