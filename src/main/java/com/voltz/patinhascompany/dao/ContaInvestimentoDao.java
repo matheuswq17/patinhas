@@ -1,6 +1,6 @@
 package com.voltz.patinhascompany.dao;
 
-import com.voltz.patinhascompany.models.ContaInvestimento;
+import com.voltz.patinhascompany.models.Usuario;
 import com.voltz.patinhascompany.factory.ConnectionFactory;
 
 import java.sql.Connection;
@@ -10,51 +10,76 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContaInvestimentoDao {
+public class UsuarioDao {
 
-    public void inserir(ContaInvestimento contaInvestimento) {
-        String sql = "INSERT INTO conta_investimento (numero_conta, tipo_moeda, usuario_id, saldo) VALUES (?, ?, ?, ?)";
+    public void inserir(Usuario usuario) {
+        String sql = "INSERT INTO usuario (nome, email, senha) VALUES (?, ?, ?)";
         try (Connection conn = ConnectionFactory.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, contaInvestimento.getNumeroConta());
-            stmt.setString(2, contaInvestimento.getTipoMoeda());
-            stmt.setInt(3, contaInvestimento.getUsuario().getId());
-            stmt.setDouble(4, contaInvestimento.getSaldo());
+             PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            stmt.setString(1, usuario.getNome());
+            stmt.setString(2, usuario.getEmail());
+            stmt.setString(3, usuario.getSenha());
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public List<ContaInvestimento> listarTodos() {
-        List<ContaInvestimento> contas = new ArrayList<>();
-        String sql = "SELECT * FROM conta_investimento";
-        try (Connection conn = ConnectionFactory.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                ContaInvestimento conta = new ContaInvestimento();
-                conta.setId(rs.getInt("id"));
-                conta.setNumeroConta(rs.getString("numero_conta"));
-                conta.setTipoMoeda(rs.getString("tipo_moeda"));
-                conta.setSaldo(rs.getDouble("saldo"));
-                // Aqui você precisará obter o usuário associado
-                contas.add(conta);
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    usuario.setId(generatedKeys.getInt(1));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return contas;
     }
 
-    public void atualizar(ContaInvestimento contaInvestimento) {
-        String sql = "UPDATE conta_investimento SET numero_conta = ?, tipo_moeda = ?, saldo = ? WHERE id = ?";
+    public Usuario buscarPorId(int id) {
+        String sql = "SELECT * FROM usuario WHERE idusuario = ?";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, contaInvestimento.getNumeroConta());
-            stmt.setString(2, contaInvestimento.getTipoMoeda());
-            stmt.setDouble(3, contaInvestimento.getSaldo());
-            stmt.setInt(4, contaInvestimento.getId());
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Usuario usuario = new Usuario();
+                    usuario.setId(rs.getInt("idusuario"));
+                    usuario.setNome(rs.getString("nome"));
+                    usuario.setEmail(rs.getString("email"));
+                    usuario.setSenha(rs.getString("senha"));
+                    return usuario;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Usuario> listarTodos() {
+        List<Usuario> usuarios = new ArrayList<>();
+        String sql = "SELECT * FROM usuario";
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setId(rs.getInt("idusuario"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setEmail(rs.getString("email"));
+                usuario.setSenha(rs.getString("senha"));
+                usuarios.add(usuario);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usuarios;
+    }
+
+    public void atualizar(Usuario usuario) {
+        String sql = "UPDATE usuario SET nome = ?, email = ?, senha = ? WHERE idusuario = ?";
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, usuario.getNome());
+            stmt.setString(2, usuario.getEmail());
+            stmt.setString(3, usuario.getSenha());
+            stmt.setInt(4, usuario.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,7 +87,7 @@ public class ContaInvestimentoDao {
     }
 
     public void remover(int id) {
-        String sql = "DELETE FROM conta_investimento WHERE id = ?";
+        String sql = "DELETE FROM usuario WHERE idusuario = ?";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);

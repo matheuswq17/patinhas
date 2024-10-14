@@ -1,7 +1,7 @@
 package com.voltz.patinhascompany.models;
 
 public class Usuario {
-    private int id;
+    private String id;  // Mudança de int para String
     private String nome;
     private String email;
     private String senha;
@@ -21,11 +21,11 @@ public class Usuario {
     }
 
     // Getters e Setters
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

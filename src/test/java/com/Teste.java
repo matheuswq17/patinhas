@@ -1,4 +1,4 @@
-package com.voltz.patinhascompany;
+package com;
 
 import com.voltz.patinhascompany.models.*;
 
@@ -21,15 +21,6 @@ public class Teste {
 
         investimento1.realizarInvestimento();
         investimento2.realizarInvestimento();
-
-        Transacao transacao1 = new Transacao("compra", 200.0, conta1, conta2, criptoAtivo1);
-        Transacao transacao2 = new Transacao("venda", 100.0, conta2, conta1, criptoAtivo2);
-
-        Notificacao notificacao1 = new Notificacao("Seu investimento foi realizado com sucesso.", usuario1);
-        Notificacao notificacao2 = new Notificacao("Nova transação concluída.", usuario2);
-
-        notificacao1.enviar();
-        notificacao2.enviar();
 
         System.out.println("Saldo Conta 1: " + conta1.getSaldo());
         System.out.println("Saldo Conta 2: " + conta2.getSaldo());
